@@ -73,4 +73,40 @@ public class Grafo {
 		return Arrays.toString(vertices.toArray());
 	}
 
+	public ArrayList<ArrayList<Integer>> lista_arcos(){
+		ArrayList<ArrayList<Integer>> end = new ArrayList<ArrayList<Integer>>();
+		Iterator<HashSet<Integer>> i = grafo.iterator();
+		//ArrayList<HashSet<Integer>> middle = new ArrayList<HashSet<Integer>>();
+		while(i.hasNext()){
+			end.add(new ArrayList<Integer>(i.next()));
+		}
+
+		return end;
+	}
+
+	public ArrayList<ArrayList<Integer>> lista_adyacencias(){
+		ArrayList<ArrayList<Integer>> end = new ArrayList<ArrayList<Integer>>();
+		Iterator<Integer> j = this.get_vertices().iterator();
+		ArrayList<ArrayList<Integer>> list_arcos = this.lista_arcos();
+		int p = 0;
+			while(j.hasNext()){
+
+				end.add(new ArrayList<Integer>());
+				end.get(p).add(j.next());
+				p++;
+			}
+		for (int i = 0;i<dim.get(0);i++){
+			for (int k = 0; k<dim.get(1);k++){
+				if (list_arcos.get(k).get(0)==end.get(i).get(0)){
+					end.get(i).add(list_arcos.get(k).get(1));
+				}
+				if (list_arcos.get(k).get(1)==end.get(i).get(0)){
+					end.get(i).add(list_arcos.get(k).get(0));
+				}
+			}
+		}
+
+		return end;
+	}
+
 }
