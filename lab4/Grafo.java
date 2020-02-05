@@ -81,6 +81,12 @@ public class Grafo {
 			end.add(new ArrayList<Integer>(i.next()));
 		}
 
+		for (int k=0;k<this.dim.get(1);k++){
+			if (end.get(k).size()==1){
+				end.get(k).add(end.get(k).get(0));
+			}
+		}
+
 		return end;
 	}
 
@@ -99,14 +105,28 @@ public class Grafo {
 			for (int k = 0; k<dim.get(1);k++){
 				if (list_arcos.get(k).get(0)==end.get(i).get(0)){
 					end.get(i).add(list_arcos.get(k).get(1));
-				}
-				if (list_arcos.get(k).get(1)==end.get(i).get(0)){
+				} else if (list_arcos.get(k).get(1)==end.get(i).get(0)){
 					end.get(i).add(list_arcos.get(k).get(0));
 				}
 			}
 		}
 
 		return end;
+	}
+
+	public HashSet<Integer> get_Neighbours(int v){
+		HashSet<Integer> neighbours = new HashSet<Integer>();
+		ArrayList<ArrayList<Integer>> list_adyacencias = this.lista_adyacencias();
+		int k=0;
+		for (int i=0;i<this.dim.get(0);i++){
+			if (list_adyacencias.get(i).get(0) == v){
+				k = i;
+				break;
+			}
+		}
+
+		neighbours.addAll(list_adyacencias.get(k).subList(1,list_adyacencias.get(k).size()));
+		return neighbours;
 	}
 
 }

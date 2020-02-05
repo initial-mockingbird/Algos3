@@ -98,6 +98,7 @@ public class Hamilton {
 		Grafo g = cargarGrafo(args[0]);
 		System.out.println(g.printVertices());
 		System.out.println(g.lista_arcos());
-		System.out.println(g.lista_adyacencias());		
+		System.out.println(g.lista_adyacencias());
+		System.out.println(g.get_Neighbours(2));	
 	}
 }
