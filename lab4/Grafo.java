@@ -21,11 +21,11 @@ public class Grafo {
 	*
 	*	@param ve El numero de vertices/aristas que posee el grafo.
 	*/
-
-	public void addDim(int ve){
+	public void addDim(int ve)
+			throws IllegalArgumentException
+	{
 		if (this.dim.size()>2){
-			System.err.println("No podemos almacenar mas que el numero de vertices y aristas :(");
-			return;
+			throw new IllegalArgumentException("No podemos almacenar mas que el numero de vertices y aristas :(");
 		}
 		this.dim.add(ve);
 		return;
@@ -40,25 +40,37 @@ public class Grafo {
 	 * @param verticeInicial V&eacute;rtice del cual sale el arco
 	 * @param verticeFinal   V&eacute;rice al cual llega el arco
 	 */
-	public void agregarArco(int verticeInicial, int verticeFinal){
+	public void agregarArco(int verticeInicial, int verticeFinal)
+			throws IllegalArgumentException
+	{
 		HashSet<Integer> arco = new HashSet<Integer>();
 		arco.add(verticeInicial);
 		arco.add(verticeFinal);
 		if (this.grafo.contains(arco)){
-			System.err.println("Una arista aparece dos veces.");
-			return;
+			throw new IllegalArgumentException("Una arista aparece dos veces.");
 		}
 		this.grafo.add(arco);
 
 	}
 
+	/**Retorna el grafo como Hashset 
+	*
+	**/
+
 	public HashSet<HashSet<Integer>> get_arcs(){
 		return this.grafo;
 	}
 
+	/** Retorna dim (Array_List que contiene el numero de vertices y el numero de aristas).
+	*
+	**/
 	public ArrayList<Integer> get_dim(){
 		return this.dim;
 	}
+
+	/** Retorna un conjunto con los vertices del grafo.
+	*
+	**/
 
 	public HashSet<Integer> get_vertices(){
 		HashSet<Integer> vertices = new HashSet<Integer>();
@@ -68,15 +80,12 @@ public class Grafo {
 		return vertices;
 	}
 
-	public String printVertices(){
-		HashSet<Integer> vertices = get_vertices();
-		return Arrays.toString(vertices.toArray());
-	}
-
+	/** Retorna el grafo como una lista de arcos.
+	*
+	**/
 	public ArrayList<ArrayList<Integer>> lista_arcos(){
 		ArrayList<ArrayList<Integer>> end = new ArrayList<ArrayList<Integer>>();
 		Iterator<HashSet<Integer>> i = grafo.iterator();
-		//ArrayList<HashSet<Integer>> middle = new ArrayList<HashSet<Integer>>();
 		while(i.hasNext()){
 			end.add(new ArrayList<Integer>(i.next()));
 		}
@@ -90,6 +99,9 @@ public class Grafo {
 		return end;
 	}
 
+	/** Retorna el grafo como una lista de adyacencias.
+	*
+	**/
 	public ArrayList<ArrayList<Integer>> lista_adyacencias(){
 		ArrayList<ArrayList<Integer>> end = new ArrayList<ArrayList<Integer>>();
 		Iterator<Integer> j = this.get_vertices().iterator();
@@ -114,6 +126,11 @@ public class Grafo {
 		return end;
 	}
 
+	/** Obtiene las adyacencias de un vertice v.
+	*
+	*	@param v Vertice al cual obtendremos sus adyacencias.
+	*
+	**/
 	public HashSet<Integer> get_Neighbours(int v){
 		HashSet<Integer> neighbours = new HashSet<Integer>();
 		ArrayList<ArrayList<Integer>> list_adyacencias = this.lista_adyacencias();

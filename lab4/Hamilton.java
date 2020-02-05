@@ -67,7 +67,7 @@ public class Hamilton {
 	 */
 	private static void cargarLista(String linea, Grafo grafo)
 			throws IllegalArgumentException
-	{	
+	{
 		String [] sanity = linea.split("\\s+");
 		if (sanity.length> 1){
 			grafo.agregarArco(Integer.parseInt(sanity[0]),Integer.parseInt(sanity[1]));
@@ -76,6 +76,33 @@ public class Hamilton {
 		}
 	}
 
+	/** Devuelve un String con un camino hamiltoniano del <code>Grafo g</code> si existiese alguno,
+	*	de otra forma explica por que no existe.
+	*
+	*	@param g El grafo sobre el cual se va a tratar encontrar un camino hamiltoniano.
+	*	@param modo Forma de solventar el problema, ya sea por BFS o por DFS.
+	*	
+	*	@throws IllegalArgumentException si el modo no se encuentra entre BFS o DFS.
+	*
+	**/
+	private static String solventar(Grafo g, String modo)
+			throws IllegalArgumentException
+	{
+		if (modo.equals("BFS")){
+			BFS respuesta = new BFS();
+			return respuesta.bfs(g);
+		}
+
+		if (modo.equals("DFS")){
+			DFSV2 respuesta = new DFSV2();
+			return respuesta.dfs(g);
+		}
+
+		else {
+			throw new IllegalArgumentException("Por favor ingrese un modo valido: <BFS|DFS>");
+		}
+
+	}
 
 	/**Carga el grafo representado en el archivo dado e imprime un camino hamiltoniano
 	 * si existe alguno, en caso contrario, explica por que no hay.
@@ -91,14 +118,16 @@ public class Hamilton {
 		throws IOException, IllegalArgumentException
 	{
 		if(args.length < 2){
-			System.err.println("Uso: java Cliente <nombreArchivo> <BFS|DFS>");
-			return;
+			throw new IllegalArgumentException("Uso: java Cliente <nombreArchivo> <BFS|DFS>");
 		}
 
 		Grafo g = cargarGrafo(args[0]);
+		String respuesta = solventar(g, args[1]);
+		System.out.println(respuesta);
+		/*
 		BFS respuesta = new BFS();
 		DFSV2 respuesdfs = new DFSV2();
 		System.out.println(respuesta.bfs(g));
-		System.out.println(respuesdfs.dfs(g));		
+		System.out.println(respuesdfs.dfs(g));*/		
 	}
 }
