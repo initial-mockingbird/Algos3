@@ -97,6 +97,8 @@ public class Hamilton {
 
 		Grafo g = cargarGrafo(args[0]);
 		BFS respuesta = new BFS();
-		System.out.println(respuesta.bfs(g));	
+		DFSV2 respuesdfs = new DFSV2();
+		System.out.println(respuesta.bfs(g));
+		System.out.println(respuesdfs.dfs(g));		
 	}
 }
