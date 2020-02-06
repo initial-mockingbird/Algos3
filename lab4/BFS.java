@@ -19,7 +19,7 @@ public class BFS{
 			raiz.add(vertices.next());
 			cadenas.add(raiz);
 			respuesta = bfs(g,cadenas);
-			if (respuesta!="No hay respuesta :("){
+			if (!respuesta.equals("No hay respuesta :(")){
 				return respuesta;
 			}
 			cadenas.remove(raiz);

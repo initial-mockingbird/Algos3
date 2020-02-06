@@ -14,7 +14,7 @@ public class DFSV2{
 			cadena.add(raiz);
 			visitados.add(raiz);
 			res = dfs(g,visitados,cadena);
-			if (res!="No se encontro caminos hamiltonianos :("){
+			if (!res.equals("No se encontro Ningun camino hamiltoniano por ningun vertice")){
 				return res;
 			}
 			visitados.remove(new Integer (raiz));
@@ -27,7 +27,7 @@ public class DFSV2{
 
 	private String dfs(Grafo g,HashSet<Integer> visitados, ArrayList<Integer> cadena){
 
-		String respuesta = "No se encontro caminos hamiltonianos :(";
+		String respuesta = "No se encontro Ningun camino hamiltoniano por ningun vertice";
 
 		if (cadena.size()==g.get_dim().get(0)){
 			return cadena.toString();
@@ -43,7 +43,7 @@ public class DFSV2{
 				visitados.add(vecino);
 				respuesta = dfs(g,visitados,cadena_nivel);
 
-				if (respuesta != "No se encontro caminos hamiltonianos :("){
+				if (!respuesta.equals("No se encontro Ningun camino hamiltoniano por ningun vertice")){
 					return respuesta;
 				}
 				cadena_nivel.remove(new Integer (vecino));
