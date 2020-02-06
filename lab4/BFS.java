@@ -1,6 +1,6 @@
 import java.util.*; 
 /**<p>Clase que busca caminos Hamiltonianos usando BFS.</p>
- */
+ **/
 public class BFS{
 	
 	/** Dado un grafo, usando BFS encuentra caminos hamiltonianos si hay alguno.

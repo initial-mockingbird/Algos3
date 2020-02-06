@@ -1,6 +1,15 @@
 import java.util.*; 
+
+/**<p>Clase que busca caminos Hamiltonianos usando BFS.</p>
+ **/
 public class DFSV2{
 	
+
+ 	/** Dado un grafo, usando DFS encuentra caminos hamiltonianos si hay alguno.
+	*
+	*	@param g Grafo sobre el cual se aplicara dfs para encontrar el camino hamiltoniano.
+	*
+	**/
 	public String dfs(Grafo g){
 		ArrayList<ArrayList<Integer>> cadenas = new ArrayList<ArrayList<Integer>>(1);
 		HashSet<Integer> vertices = g.get_vertices();
@@ -25,6 +34,14 @@ public class DFSV2{
 
 	}
 
+	/** El procedimiento DFS de por si.
+	*
+	*	@param g Grafo sobre el cual se hara dfs.
+	*	@param visitados lista de nodos ya visitados.
+	*	@param cadena cadena sobre la cual se meten los nodos para ver si es un posible
+	*	camino hamiltoniano. 
+	*
+	**/
 	private String dfs(Grafo g,HashSet<Integer> visitados, ArrayList<Integer> cadena){
 
 		String respuesta = "No se encontro Ningun camino hamiltoniano por ningun vertice";
