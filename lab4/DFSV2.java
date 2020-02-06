@@ -1,5 +1,7 @@
 import java.util.*; 
-
+/* 	Daniel Pinto
+*	Daniela Ramirez
+*/
 /**<p>Clase que busca caminos Hamiltonianos usando BFS.</p>
  **/
 public class DFSV2{

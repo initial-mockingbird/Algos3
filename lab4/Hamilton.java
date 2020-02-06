@@ -4,6 +4,10 @@ import java.io.FileReader;
 import java.util.Arrays; 
 import java.util.stream.*;
 
+/* 	Daniel Pinto
+*	Daniela Ramirez
+*/
+
 /**<p>Programa que indica la existencia de un camino Hamiltoniano
  * empleando DFS o BFS</p>
  * 
