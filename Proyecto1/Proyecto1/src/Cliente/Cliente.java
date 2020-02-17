@@ -34,7 +34,7 @@ public class Cliente{
             // Ahora dependiendo del tipo de orietación, creamos un grafo Dirigido o un grafo no Dirigido
             if(o.equals("D")) {
 
-                GrafoDirigido grafo = null;
+                GrafoDirigido grafo;
                 Scanner reader = new Scanner(System.in);
 
                 /* Creamos, construimos y cargamos el grafo */
@@ -216,7 +216,7 @@ public class Cliente{
                         LinkedList<Lado> Arr = grafo.lados();
                         for(int i=0; i<Arr.size(); i++){
                             System.out.println(Arr.get(i).toString());
-                        
+                        }
                         System.out.println("\n");
                     } if (c.equals("s")){
                         System.out.println("Vertices en el grafo: ");
@@ -224,7 +224,7 @@ public class Cliente{
                         LinkedList<Vertice> Arr1 = grafo.vertices();
                         for(int i=0; i<Arr1.size(); i++){
                             System.out.println(Arr1.get(i).toString());
-                        
+                        }
                         System.out.println("\n");
                     } if (c.equals("d")){
                         int Identificador;
@@ -299,7 +299,7 @@ public class Cliente{
             } else if(o.equals("N")){
 
                
-                reader = new Scanner(System.in);
+                Scanner reader = new Scanner(System.in);
 
                 /* Creamos, construimos y cargamos el grafo */
                 GrafoNoDirigido grafo2 = new GrafoNoDirigido();                                                          //Inicializa Grafo no Dirigido
@@ -328,12 +328,12 @@ public class Cliente{
                         "Presione h (seguido de \"Enter\") para clonar el grafo a un grafo nuevo \n" +
                         "Presione j (seguido de \"Enter\") para imprimir una representacion del grafo \n" +
                         "Presione n (seguido de \"Enter\") para salir");
-                        c = reader.next();
+                        String c = reader.next();
                     System.out.println(" ");
                     if (c.equals("q")) {
-                        System.out.println("El numero de Vertices es: " + grafo.numeroDeVertices()+"\n");
+                        System.out.println("El numero de Vertices es: " + grafo2.numeroDeVertices()+"\n");
                     } else if (c.equals("w")) {
-                        System.out.println("El numero de Aristas es: " + grafo.numeroDeLados()+"\n");
+                        System.out.println("El numero de Aristas es: " + grafo2.numeroDeLados()+"\n");
                     }else if (c.equals("e")) {
                         Boolean Result = false;
                         int Identificador;
@@ -470,7 +470,7 @@ public class Cliente{
                         LinkedList<Lado> Ar = grafo2.lados();
                         for(int i=0; i<Ar.size(); i++){
                             System.out.println(Ar.get(i).toString());
-                        
+                        }
                         System.out.println("\n");
                     } if (c.equals("s")){
                         System.out.println("Vertices en el grafo: ");
@@ -478,7 +478,7 @@ public class Cliente{
                         LinkedList<Vertice> Arr = grafo2.vertices();
                         for(int i=0; i<Arr.size(); i++){
                             System.out.println(Arr.get(i).toString());
-                        
+                        }
                         System.out.println("\n");
                     } if (c.equals("d")){
                         int Identificador;
@@ -524,9 +524,4 @@ public class Cliente{
             }  
         }
     }
-}
-            }
-
-    }
-}
        
