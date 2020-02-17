@@ -6,7 +6,7 @@ import java.util.NoSuchElementException;
 /** interface Grafo la cual provee los metodos base que deben tener 
  *  todas las representaciones de grafos.
  */
-interface Grafo {
+public interface Grafo {
     /** cargarGrafo se encarga de traducir un archivo a un tipo de representacion.
      * 
      * @param archivo

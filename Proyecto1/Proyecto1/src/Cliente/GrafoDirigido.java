@@ -2,16 +2,28 @@ package Cliente;
 
 import java.io.IOException;
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.HashSet;
-public class GrafoDirigido implements Grafo {
+import java.util.Iterator;
+
+/**
+ * Implementacion de un grafo dirigido el cual sigue la documentacion proveida por el pdf.
+ */
+public class GrafoDirigido implements Grafo{
     protected HashSet<Arco> listaLados;
     protected HashSet<Vertice> gVertices;
     protected int numNodos;
     protected int numLados;
 
+    GrafoDirigido(){
+        this.listaLados = new HashSet<Arco>();
+        this.gVertices = new HashSet<Vertice>();
+        this.numNodos = 0;
+        this.numLados = 0;
+    }
     GrafoDirigido(HashSet<Arco> nlistaLados,HashSet<Vertice> ngVertices,int nnumNodos,int nnumLados){
         this.listaLados = new HashSet<Arco>(nlistaLados);
         this.gVertices = new HashSet<Vertice>(ngVertices);
@@ -50,7 +62,7 @@ public class GrafoDirigido implements Grafo {
     public Vertice obtenerVertice(int id)
         throws NoSuchElementException
     {
-        Vertice nullV = crearVertice(id,"",0,0,0);
+        Vertice nullV = new Vertice(id,"",0.0,0.0,0.0);
         Iterator<Vertice> vs = this.gVertices.iterator();
         while (vs.hasNext()){
             Vertice next = vs.next();
@@ -65,7 +77,7 @@ public class GrafoDirigido implements Grafo {
      */
     @Override
     public Boolean estaVertice(int id){
-        Vertice nullV = crearVertice(id,"",0,0,0);
+        Vertice nullV = new Vertice(id,"",0.0,0.0,0.0);
         return this.gVertices.contains(nullV);
     }
     /**
@@ -73,7 +85,7 @@ public class GrafoDirigido implements Grafo {
      */
     @Override
     public Boolean eliminarVertice(int id){
-        Vertice nullV = crearVertice(id,"",0,0,0);
+        Vertice nullV = new Vertice(id,"",0.0,0.0,0.0);
         if (this.gVertices.contains(nullV)){
             this.gVertices.remove(nullV);
             return true;
@@ -92,7 +104,7 @@ public class GrafoDirigido implements Grafo {
      */
     @Override
     public LinkedList<Lado> lados(){
-        return new LinkedList<Vertice>(this.listaLados);
+        return new LinkedList<Lado>(this.listaLados);
     }
     /**
      * {@inheritDoc}
@@ -102,7 +114,7 @@ public class GrafoDirigido implements Grafo {
         throws NoSuchElementException
     {
         int gradoSoFar = 0;
-        Vertice nullV = crearVertice(id,"",0,0,0);
+        Vertice nullV = new Vertice(id,"",0.0,0.0,0.0);
         if (!this.gVertices.contains(nullV)){
             throw new NoSuchElementException("El identificador del vertice no es valido.");
         }
@@ -124,7 +136,7 @@ public class GrafoDirigido implements Grafo {
     public LinkedList<Vertice> adyacentes(int id)
         throws NoSuchElementException
     {
-        Vertice nullV = crearVertice(id,"",0,0,0);
+        Vertice nullV = new Vertice(id,"",0.0,0.0,0.0);
         if (!this.gVertices.contains(nullV)){
             throw new NoSuchElementException("El identificador del vertice no es valido.");
         }
@@ -147,7 +159,7 @@ public class GrafoDirigido implements Grafo {
     public LinkedList<Lado> incidentes(int id)
         throws NoSuchElementException
     {
-        Vertice nullV = crearVertice(id,"",0,0,0);
+        Vertice nullV = new Vertice(id,"",0.0,0.0,0.0);
         if (!this.gVertices.contains(nullV)){
             throw new NoSuchElementException("El identificador del vertice no es valido.");
         }
@@ -165,8 +177,8 @@ public class GrafoDirigido implements Grafo {
      * {@inheritDoc}
      */
     @Override
-    public GrafoNoDirigido clone(){
-        return new GrafoNoDirigido(HashSet<Arco> listaLados,HashSet<Vertice> gVertices,int numNodos,int numLados);
+    public GrafoDirigido clone(){
+        return new GrafoDirigido(this.listaLados,this.gVertices,this.numNodos,this.numLados);
     }
     /**
      * {@inheritDoc}
@@ -179,44 +191,52 @@ public class GrafoDirigido implements Grafo {
      * {@inheritDoc}
      */
     @Override
-    public Boolean cargarGrafo(String nombreArchivo){
-        k = 0;
-        BufferedReader Lector = new BufferedReader(
-				new FileReader(nombreArchivo));
-		
-        String linea = Lector.readLine();
+    public Boolean cargarGrafo(String nombreArchivo)
+    {
+        int k = 0;
+        try {
+            BufferedReader lector = new BufferedReader(
+                new FileReader(nombreArchivo));
+        String linea;
         String[] nlinea;
 		do{
-			cargarLista(linea, salida);
-            linea = Lector.readLine();
+            linea = lector.readLine();
+            if ((k==0) && (!linea.contains("N")) && (!linea.contains("D"))){
+                return false;
+            }
             if ((k==0) && (linea.contains("N"))) {
                 return false;
             } else if (k==1){
                 this.numNodos = Integer.valueOf(linea).intValue();
             } else if (k==2){
                 this.numLados = Integer.valueOf(linea).intValue();
-            } else if (k<this.numNodos+3){
-                nlinea = nlinea.split(" ");
+            } else if ((k<this.numNodos+3) && (k>0) ){
+                nlinea = linea.split("\\s+");
                 int id = Integer.valueOf(nlinea[0]).intValue();
                 String nombre = nlinea[1];
                 double x = Double.valueOf(nlinea[2]);
                 double y = Double.valueOf(nlinea[3]);
                 double p = Double.valueOf(nlinea[4]);
-                Vertice v = crearVertice(id,nombre,x,y,p);
+                Vertice v = new Vertice(id,nombre,x,y,p);
                 this.gVertices.add(v);
-            } else if (k<this.numNodos+3+this.numLados){
-                nlinea = nlinea.split(" ");
+            } else if ((k<this.numNodos+3+this.numLados) && (k>0) ){
+                nlinea = linea.split("\\s+");
                 int idv = Integer.valueOf(nlinea[0]).intValue();
                 int idw = Integer.valueOf(nlinea[1]).intValue();
                 int tipo = Integer.valueOf(nlinea[2]).intValue();
                 double p = Double.valueOf(nlinea[3]);
                 Vertice v = obtenerVertice(idv);
                 Vertice w = obtenerVertice(idw);
-                listaLados.add(crearArco(u,w,tipo,p));
+                listaLados.add(new Arco(v,w,tipo,p));
             }
             k += 1;
         }while(linea != null);
+        lector.close();
         return true;
+        } 
+        catch (Exception FileNotFoundException){
+            return false;
+        }
     }
 
     /**
@@ -260,7 +280,25 @@ public class GrafoDirigido implements Grafo {
      * @return True|False si el arco se inserto|no se inserto.
      */
     public Boolean agregarArco(Vertice u, Vertice v, int tipo, double p){
-        Arco nueva = crearArco(u,v,tipo,p);
+        Arco nueva = new Arco(u,v,tipo,p);
+        if (listaLados.contains(nueva)){
+            return false;
+        }
+        listaLados.add(nueva);
+        return true;
+    }
+
+    /** 
+     * Metodo alterno para agregar un arco, la cual toma los parametros del constructor
+     * de arco
+     * @param u String primer vertice.
+     * @param v String segundo vertice.
+     * @param tipo tipo del arco.
+     * @param p peso del arco.
+     * @return True|False si el arco se inserto|no se inserto.
+     */
+    public Boolean agregarArco(String u, String v, int tipo, double p){
+        Arco nueva = new Arco(u,v,tipo,p);
         if (listaLados.contains(nueva)){
             return false;
         }
@@ -277,9 +315,9 @@ public class GrafoDirigido implements Grafo {
      * @return True|False si el arco pertenece | no pertenece al grafo.
      */
     public Boolean estaArco(int u, int v, int tipo){
-        Vertice nullU = crearVertice(u,"",0,0,0);
-        Vertice nullV = crearVertice(v,"",0,0,0);
-        Arco uv = crearArco(nullU,nullV,tipo,0);
+        Vertice nullU = new Vertice(u,"",0.0,0.0,0.0);
+        Vertice nullV = new Vertice(v,"",0.0,0.0,0.0);
+        Arco uv = new Arco(nullU,nullV,tipo,0.0);
         return this.listaLados.contains(uv);
     } 
 
@@ -290,9 +328,9 @@ public class GrafoDirigido implements Grafo {
      * @return True|False si se elimino | no se elimino de la estructura. 
      */
     public Boolean eliminarArco(int v, int u, int tipo){
-        Vertice nullV = crearVertice(v.intValue(),"",0,0,0);
-        Vertice nullW = crearVertice(u.intValue(),"",0,0,0);
-        Arista nullA = crearArista(nullV,nullW,tipo,0);
+        Vertice nullV = new Vertice(v,"",0.0,0.0,0.0);
+        Vertice nullW = new Vertice(u,"",0.0,0.0,0.0);
+        Arco nullA = new Arco(nullV,nullW,tipo,0.0);
         if (this.listaLados.contains(nullA)){
             this.listaLados.remove(nullA);
             return true;
@@ -311,12 +349,12 @@ public class GrafoDirigido implements Grafo {
     public Arco obtenerArco(int v, int u, int tipo)
         throws NoSuchElementException
     {
-        Vertice nullV = crearVertice(v.intValue(),"",0,0,0);
-        Vertice nullW = crearVertice(u.intValue(),"",0,0,0);
+        Vertice nullV = new Vertice(v,"",0.0,0.0,0.0);
+        Vertice nullW = new Vertice(u,"",0.0,0.0,0.0);
         if (!this.gVertices.contains(nullV) || !this.gVertices.contains(nullW)){
             throw new NoSuchElementException("Algun identificador de vertice no es valido.");
         }
-        Arista nullA = crearArista(nullV,nullW,tipo,0);
+        Arco nullA = new Arco(nullV,nullW,tipo,0.0);
         Iterator<Arco> arco = listaLados.iterator();
         while(arco.hasNext()){
             Arco sig = arco.next();
@@ -324,6 +362,7 @@ public class GrafoDirigido implements Grafo {
                 return sig;
             }
         }
+        throw new NoSuchElementException("no existe un vertice que sea asociado con alguno de los identificadores.");
     }
 
     /**
@@ -337,7 +376,7 @@ public class GrafoDirigido implements Grafo {
         throws NoSuchElementException
     {
         int gradoSoFar = 0;
-        Vertice nullV = crearVertice(id,"",0,0,0);
+        Vertice nullV = new Vertice(v,"",0.0,0.0,0.0);
         if (!this.gVertices.contains(nullV)){
             throw new NoSuchElementException("El identificador del vertice no es valido.");
         }
@@ -362,7 +401,7 @@ public class GrafoDirigido implements Grafo {
         throws NoSuchElementException
     {
         int gradoSoFar = 0;
-        Vertice nullV = crearVertice(id,"",0,0,0);
+        Vertice nullV = new Vertice(v,"",0.0,0.0,0.0);
         if (!this.gVertices.contains(nullV)){
             throw new NoSuchElementException("El identificador del vertice no es valido.");
         }
@@ -386,7 +425,7 @@ public class GrafoDirigido implements Grafo {
     public LinkedList<Vertice> sucesores(int id)
         throws NoSuchElementException
     {
-        Vertice nullV = crearVertice(id,"",0,0,0);
+        Vertice nullV = new Vertice(id,"",0.0,0.0,0.0);
         if (!this.gVertices.contains(nullV)){
             throw new NoSuchElementException("No se encontro el elemento asociado al identificador.");
         }
@@ -411,7 +450,7 @@ public class GrafoDirigido implements Grafo {
     public LinkedList<Vertice> predecesores(int id)
         throws NoSuchElementException
     {
-        Vertice nullV = crearVertice(id,"",0,0,0);
+        Vertice nullV = new Vertice(id,"",0.0,0.0,0.0);
         if (!this.gVertices.contains(nullV)){
             throw new NoSuchElementException("No se encontro el elemento asociado al identificador.");
         }
@@ -424,5 +463,10 @@ public class GrafoDirigido implements Grafo {
             }
         }
         return succ;
+    }
+    public static void main(String[] args){
+        GrafoDirigido g = new GrafoDirigido();
+        g.cargarGrafo("/home/dan/Documents/Algos3/Algos3/Proyecto1/Proyecto1/test2.txt");
+        System.out.println(g.toString());
     }
 }

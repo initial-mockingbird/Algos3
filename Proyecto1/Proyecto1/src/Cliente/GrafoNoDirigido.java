@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.HashSet;
+import java.util.Iterator;
 
 /** clase GrafoNoDirigido la cual representa a un grafo no dirigido.
  * 
@@ -19,6 +20,13 @@ public class GrafoNoDirigido implements Grafo {
     protected int numNodos;
     protected int numLados;
     
+    GrafoNoDirigido(){
+        this.listaLados = new HashSet<Arista>();
+        this.gVertices = new HashSet<Vertice>();
+        this.numNodos =  0;
+        this.numLados = 0;
+    }
+
     GrafoNoDirigido(HashSet<Arista> nlistaLados,HashSet<Vertice> ngVertices,int nnumNodos,int nnumLados){
         this.listaLados = new HashSet<Arista>(nlistaLados);
         this.gVertices = new HashSet<Vertice>(ngVertices);
@@ -66,13 +74,32 @@ public class GrafoNoDirigido implements Grafo {
      * @return True|False si la arista se inserto|no se inserto.
      */
     public Boolean agregarArista(Vertice u, Vertice v, int tipo, double p){
-        Arista nueva = crearArista(u,v,tipo,p);
+        Arista nueva = new Arista(u,v,tipo,p);
         if (listaLados.contains(nueva)){
             return false;
         }
         listaLados.add(nueva);
         return true;
     }
+
+    /** 
+     * Metodo alterno para agregar una arista, la cual toma los parametros del constructor
+     * de arista
+     * @param u String identificador del primer vertice.
+     * @param v String identificador del segundo vertice.
+     * @param tipo tipo de la arista.
+     * @param p peso de la arista.
+     * @return True|False si la arista se inserto|no se inserto.
+     */
+    public Boolean agregarArista(String u, String v, int tipo, Double p){
+        Arista nueva = new Arista(u,v,tipo,p);
+        if (listaLados.contains(nueva)){
+            return false;
+        }
+        listaLados.add(nueva);
+        return true;
+    }
+
     /**
      * dada una arista representada por su identificador> "idVerticeInicial idVerticeFinal tipo"
      * la elimina de la estrucura si esta en ella, de otra forma, la deja intacta.
@@ -80,10 +107,10 @@ public class GrafoNoDirigido implements Grafo {
      * @return True|False si se elimino | no se elimino de la estructura. 
      */
     public Boolean eliminarArista(String id){
-        String middleMan = id.split(" ");
-        Vertice nullV = crearVertice(Integer.valueOf(middleMan[0]).intValue(),"",0,0,0);
-        Vertice nullW = crearVertice(Integer.valueOf(middleMan[1]).intValue(),"",0,0,0);
-        Arista nullA = crearArista(nullV,nullW,Integer.valueOf(middleMan[2]),0);
+        String[] middleMan = id.split(" ");
+        Vertice nullV = new Vertice(Integer.valueOf(middleMan[0]).intValue(),"",0.0,0.0,0.0);
+        Vertice nullW = new Vertice(Integer.valueOf(middleMan[1]).intValue(),"",0.0,0.0,0.0);
+        Arista nullA = new Arista(nullV,nullW,Integer.valueOf(middleMan[2]),0.0);
         if (this.listaLados.contains(nullA)){
             this.listaLados.remove(nullA);
             return true;
@@ -99,9 +126,9 @@ public class GrafoNoDirigido implements Grafo {
      * @return True|False si la arista pertenece | no pertenece al grafo.
      */
     public Boolean estaArista(int u, int v, int tipo){
-        Vertice nullU = crearVertice(u,"",0,0,0);
-        Vertice nullV = crearVertice(v,"",0,0,0);
-        Arista uv = crearArista(nullU,nullV,tipo,0);
+        Vertice nullU = new Vertice(u,"",0.0,0.0,0.0);
+        Vertice nullV = new Vertice(v,"",0.0,0.0,0.0);
+        Arista uv = new Arista(nullU,nullV,tipo,0.0);
         return this.listaLados.contains(uv);
     } 
     /**
@@ -116,12 +143,12 @@ public class GrafoNoDirigido implements Grafo {
         throws NoSuchElementException
     {
         String[] middleMan = id.split(" ");
-        Vertice nullV = crearVertice(Integer.valueOf(middleMan[0]).intValue(),"",0,0,0);
-        Vertice nullW = crearVertice(Integer.valueOf(middleMan[1]).intValue(),"",0,0,0);
+        Vertice nullV = new Vertice(Integer.valueOf(middleMan[0]).intValue(),"",0.0,0.0,0.0);
+        Vertice nullW = new Vertice(Integer.valueOf(middleMan[1]).intValue(),"",0.0,0.0,0.0);
         if (!this.gVertices.contains(nullV) || !this.gVertices.contains(nullW)){
-            throw new NoSuchElementException("Alguno de los identificadores ingresados no es valido.")
+            throw new NoSuchElementException("Alguno de los identificadores ingresados no es valido.");
         }
-        Arista nullA = crearArista(nullV,nullW,Integer.valueOf(middleMan[2]),0);
+        Arista nullA = new Arista(nullV,nullW,Integer.valueOf(middleMan[2]),0.0);
         Iterator<Arista> arista = listaLados.iterator();
         while(arista.hasNext()){
             Arista sig = arista.next();
@@ -129,6 +156,7 @@ public class GrafoNoDirigido implements Grafo {
                 return sig;
             }
         }
+        throw new NoSuchElementException("no existe un vertice que sea asociado con alguno de los identificadores.");
     }
     /**
      * {@inheritDoc}
@@ -162,7 +190,7 @@ public class GrafoNoDirigido implements Grafo {
     public Vertice obtenerVertice(int id)
         throws NoSuchElementException
     {
-        Vertice nullV = crearVertice(id,"",0,0,0);
+        Vertice nullV = new Vertice(id,"",0.0,0.0,0.0);
         Iterator<Vertice> vs = this.gVertices.iterator();
         while (vs.hasNext()){
             Vertice next = vs.next();
@@ -177,7 +205,7 @@ public class GrafoNoDirigido implements Grafo {
      */
     @Override
     public Boolean estaVertice(int id){
-        Vertice nullV = crearVertice(id,"",0,0,0);
+        Vertice nullV = new Vertice(id,"",0.0,0.0,0.0);
         return this.gVertices.contains(nullV);
     }
     /**
@@ -185,7 +213,7 @@ public class GrafoNoDirigido implements Grafo {
      */
     @Override
     public Boolean eliminarVertice(int id){
-        Vertice nullV = crearVertice(id,"",0,0,0);
+        Vertice nullV = new Vertice(id,"",0.0,0.0,0.0);
         if (this.gVertices.contains(nullV)){
             this.gVertices.remove(nullV);
             return true;
@@ -204,7 +232,7 @@ public class GrafoNoDirigido implements Grafo {
      */
     @Override
     public LinkedList<Lado> lados(){
-        return new LinkedList<Vertice>(this.listaLados);
+        return new LinkedList<Lado>(this.listaLados);
     }
     /**
      * {@inheritDoc}
@@ -214,7 +242,7 @@ public class GrafoNoDirigido implements Grafo {
     throws NoSuchElementException
     {
         int gradoSoFar = 0;
-        Vertice nullV = crearVertice(id,"",0,0,0);
+        Vertice nullV = new Vertice(id,"",0.0,0.0,0.0);
         if (!this.gVertices.contains(nullV)){
             throw new NoSuchElementException("No existe ningun vertice con tal identificador.");
         }
@@ -236,7 +264,7 @@ public class GrafoNoDirigido implements Grafo {
     public LinkedList<Vertice> adyacentes(int id)
         throws NoSuchElementException
     {
-        Vertice nullV = crearVertice(id,"",0,0,0);
+        Vertice nullV = new Vertice(id,"",0.0,0.0,0.0);
         if (!this.gVertices.contains(nullV)){
             throw new NoSuchElementException("No existe ningun vertice con tal identificador.");
         }
@@ -245,9 +273,9 @@ public class GrafoNoDirigido implements Grafo {
         while(nextLado.hasNext()){
             Arista sig = nextLado.next();
             if (sig.getExtremo1().equals(nullV)){
-                ady.add(sig.getExtremo2);
+                ady.add(sig.getExtremo2() );
             } else if (sig.getExtremo2().equals(nullV)){
-                ady.add(sig.getExtremo1);
+                ady.add(sig.getExtremo1() );
             }
         }
         return new LinkedList<Vertice>(ady);
@@ -259,7 +287,7 @@ public class GrafoNoDirigido implements Grafo {
     public LinkedList<Lado> incidentes(int id)
         throws NoSuchElementException
     {
-        Vertice nullV = crearVertice(id,"",0,0,0);
+        Vertice nullV = new Vertice(id,"",0.0,0.0,0.0);
         if (!this.gVertices.contains(nullV)){
             throw new NoSuchElementException("No existe ningun vertice con tal identificador.");
         }
@@ -278,7 +306,7 @@ public class GrafoNoDirigido implements Grafo {
      */
     @Override
     public GrafoNoDirigido clone(){
-        return new GrafoNoDirigido(HashSet<Arista> listaLados,HashSet<Vertice> gVertices,int numNodos,int numLados);
+        return new GrafoNoDirigido(listaLados,gVertices,numNodos,numLados);
     }
     /**
      * {@inheritDoc}
@@ -292,42 +320,53 @@ public class GrafoNoDirigido implements Grafo {
      */
     @Override
     public Boolean cargarGrafo(String nombreArchivo){
-        k = 0;
+        int k = 0;
+        try { 
         BufferedReader Lector = new BufferedReader(
 				new FileReader(nombreArchivo));
-		
-        String linea = Lector.readLine();
+        
+        String linea;
         String[] nlinea;
 		do{
-			cargarLista(linea, salida);
             linea = Lector.readLine();
+            linea = linea.trim();
             if ((k==0) && (linea.contains("D"))) {
                 return false;
             } else if (k==1){
                 this.numNodos = Integer.valueOf(linea).intValue();
             } else if (k==2){
                 this.numLados = Integer.valueOf(linea).intValue();
-            } else if (k<this.numNodos+3){
-                nlinea = nlinea.split(" ");
+            } else if ((k<this.numNodos+3) && (k>0)){
+                nlinea = linea.split("\\s+");
                 int id = Integer.valueOf(nlinea[0]).intValue();
                 String nombre = nlinea[1];
                 double x = Double.valueOf(nlinea[2]);
                 double y = Double.valueOf(nlinea[3]);
                 double p = Double.valueOf(nlinea[4]);
-                Vertice v = crearVertice(id,nombre,x,y,p);
+                Vertice v = new Vertice(id,nombre,x,y,p);
                 this.gVertices.add(v);
-            } else if (k<this.numNodos+3+this.numLados){
-                nlinea = nlinea.split(" ");
+            } else if ((k<this.numNodos+3+this.numLados)&& (k>0) ){
+                nlinea = linea.split("\\s+");
                 int idv = Integer.valueOf(nlinea[0]).intValue();
                 int idw = Integer.valueOf(nlinea[1]).intValue();
                 int tipo = Integer.valueOf(nlinea[2]).intValue();
                 double p = Double.valueOf(nlinea[3]);
                 Vertice v = obtenerVertice(idv);
                 Vertice w = obtenerVertice(idw);
-                listaLados.add(crearArista(u,w,tipo,p));
+                listaLados.add(new Arista(v,w,tipo,p));
             }
             k += 1;
         }while(linea != null);
         return true;
+        }
+        catch (Exception FileNotFoundException){
+            return false;
+        } 
+    }
+
+    public static void main(String[] args){
+        GrafoNoDirigido g = new GrafoNoDirigido();
+        g.cargarGrafo("/home/dan/Documents/Algos3/Algos3/Proyecto1/Proyecto1/test1.txt");
+        System.out.println(g.toString());
     }
 }
