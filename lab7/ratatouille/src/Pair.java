@@ -1,3 +1,5 @@
+import java.util.function.Supplier;
+import java.util.function.UnaryOperator;
 
 public class Pair<T1,T2> {
 	T1 fst;
@@ -16,6 +18,13 @@ public class Pair<T1,T2> {
 		return this.snd;
 	}
 
+	public Supplier<Pair<T1,T2>> fmapS(UnaryOperator<T2> f){
+		return () -> new Pair<T1,T2>(this.fst, f.apply(this.snd));
+	}
+
+	public Pair<T1,T2> clone() {
+		return new Pair<T1,T2>(this.fst,this.snd);
+	}
 
 	@Override
 	public String toString() {

@@ -1,0 +1,59 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Caracas",
+            "request": "launch",
+            "mainClass": "app.App",
+            "projectName": "Hogwarts_express",
+            "args": "~/Documents/Algos3/Algos3/Proyecto2/Caracas.txt ~/Documents/Algos3/Algos3/Proyecto2/LineasCaracas.txt Capuchinos LaTrinidad"
+        },
+        {
+            "type": "java",
+            "name": "Test_pruebita",
+            "request": "launch",
+            "mainClass": "app.App",
+            "projectName": "Hogwarts_express",
+            "args": "~/Documents/Algos3/Algos3/Proyecto2/pruebita.txt ~/Documents/Algos3/Algos3/Proyecto2/Lineas.txt Westbourne CaledonianRoad"
+        },
+        {
+            "type": "java",
+            "name": "Test",
+            "request": "launch",
+            "mainClass": "app.App",
+            "projectName": "Hogwarts_express",
+            "args": "~/Documents/Algos3/Algos3/Proyecto2/Londres.txt ~/Documents/Algos3/Algos3/Proyecto2/Lineas.txt Westbourne CaledonianRoad"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch) - Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-App<Hogwarts_express>",
+            "request": "launch",
+            "mainClass": "app.App",
+            "projectName": "Hogwarts_express"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-GrafoDirigido<Hogwarts_express>",
+            "request": "launch",
+            "mainClass": "app.GrafoDirigido",
+            "projectName": "Hogwarts_express"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-GrafoNoDirigido<Hogwarts_express>",
+            "request": "launch",
+            "mainClass": "app.GrafoNoDirigido",
+            "projectName": "Hogwarts_express"
+        }
+    ]
+}

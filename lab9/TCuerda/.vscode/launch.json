@@ -1,0 +1,45 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Debug Caso3",
+            "request": "launch",
+            "mainClass": "app.TCuerda",
+            "projectName": "TCuerda",
+            "args":"/home/dan/Documents/Algos3/Algos3/lab9/instancia3.txt"
+        },
+        {
+            "type": "java",
+            "name": "Debug Caso10",
+            "request": "launch",
+            "mainClass": "app.TCuerda",
+            "projectName": "TCuerda",
+            "args":"/home/dan/Documents/Algos3/Algos3/lab9/instancia10.txt"
+        },
+        {
+            "type": "java",
+            "name": "Debug Todos los casos",
+            "request": "launch",
+            "mainClass": "app.TCuerda",
+            "projectName": "TCuerda",
+            "args": "/home/dan/Documents/Algos3/Algos3/lab9/instancia1.txt /home/dan/Documents/Algos3/Algos3/lab9/instancia2.txt /home/dan/Documents/Algos3/Algos3/lab9/instancia3.txt /home/dan/Documents/Algos3/Algos3/lab9/instancia4.txt /home/dan/Documents/Algos3/Algos3/lab9/instancia5.txt /home/dan/Documents/Algos3/Algos3/lab9/instancia6.txt /home/dan/Documents/Algos3/Algos3/lab9/instancia7.txt /home/dan/Documents/Algos3/Algos3/lab9/instancia8.txt /home/dan/Documents/Algos3/Algos3/lab9/instancia9.txt /home/dan/Documents/Algos3/Algos3/lab9/instancia10.txt"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch) - Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-App<TCuerda>",
+            "request": "launch",
+            "mainClass": "app.App",
+            "projectName": "TCuerda"
+        }
+    ]
+}

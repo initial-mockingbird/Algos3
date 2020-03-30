@@ -1,0 +1,6 @@
+s11.java: sn.java so.java
+sn.java: sk.java
+sg.java: sf.java
+so.java: sk.java
+sh.java: sf.java
+sk.java: sg.java sh.java

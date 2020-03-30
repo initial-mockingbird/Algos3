@@ -9,7 +9,7 @@
             "name": "Debug (Launch) with Arguments Prompt",
             "request": "launch",
             "mainClass": "Mesero",
-            "args": "/home/dan/Documents/Algos3/Algos3/lab7/EjemploC.txt"
+            "args": "/home/dan/Documents/Algos3/Algos3/lab7/EjemploA.txt 2"
         },
         
         {

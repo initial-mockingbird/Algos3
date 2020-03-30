@@ -1,0 +1,6 @@
+s9.java: s31.java s10.java s3.java
+s3.java: s10.java
+s88.java: s10.java
+s22.java: s10.java
+sl.java: s3.java s5.java
+s6.java: sl.java s5.java
